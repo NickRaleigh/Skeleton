@@ -132,6 +132,22 @@ because the attribute selector is excluded from the media query. */
 
 /* Grid
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
+/* The old float grid computed each column's width as
+(100% - 11 x gutter) / 12 per track, n tracks plus (n-1) gutters for an
+n-column span - which is exactly what CSS Grid's `repeat(12, 1fr)` with
+a `gap` produces on its own. So the same .one..twelve/.offset-by-*
+classes below reproduce the original percentages exactly, just via
+grid-column-end/grid-column-start instead of width/margin-left, and no
+clearfix is needed internally. (Width is set via grid-column-END,
+not the `grid-column: span N` shorthand - that shorthand actually
+assigns the span to grid-column-START, which an offset class then
+needs to overwrite with a literal line number, silently losing the
+span. Keeping width and offset each on their own longhand means the
+two kinds of classes never fight over the same property.) This does
+mean a .column/.columns needs
+a grid-display ancestor - in practice .row, as in every documented
+Skeleton layout - to be sized by these classes; used bare, it just
+stacks full-width the way it does below 550px. */
 .container {
   position: relative;
   width: 100%;
@@ -142,7 +158,6 @@ because the attribute selector is excluded from the media query. */
 .column,
 .columns {
   width: 100%;
-  float: left;
   box-sizing: border-box; }
 
 /* For devices larger than 400px */
@@ -156,63 +171,65 @@ because the attribute selector is excluded from the media query. */
 @media (min-width: 550px) {
   .container {
     width: 80%; }
+  .row {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--grid-gutter); }
   .column,
   .columns {
-    margin-left: 4%; }
-  .column:first-child,
-  .columns:first-child {
-    margin-left: 0; }
+    width: auto; }
 
   .one.column,
-  .one.columns                    { width: 4.66666666667%; }
-  .two.columns                    { width: 13.3333333333%; }
-  .three.columns                  { width: 22%;            }
-  .four.columns                   { width: 30.6666666667%; }
-  .five.columns                   { width: 39.3333333333%; }
-  .six.columns                    { width: 48%;            }
-  .seven.columns                  { width: 56.6666666667%; }
-  .eight.columns                  { width: 65.3333333333%; }
-  .nine.columns                   { width: 74.0%;          }
-  .ten.columns                    { width: 82.6666666667%; }
-  .eleven.columns                 { width: 91.3333333333%; }
-  .twelve.columns                 { width: 100%; margin-left: 0; }
+  .one.columns                    { grid-column-end: span 1; }
+  .two.columns                    { grid-column-end: span 2; }
+  .three.columns                  { grid-column-end: span 3; }
+  .four.columns                   { grid-column-end: span 4; }
+  .five.columns                   { grid-column-end: span 5; }
+  .six.columns                    { grid-column-end: span 6; }
+  .seven.columns                  { grid-column-end: span 7; }
+  .eight.columns                  { grid-column-end: span 8; }
+  .nine.columns                   { grid-column-end: span 9; }
+  .ten.columns                    { grid-column-end: span 10; }
+  .eleven.columns                 { grid-column-end: span 11; }
+  .twelve.columns                 { grid-column-end: span 12; }
 
-  .one-third.column               { width: 30.6666666667%; }
-  .two-thirds.column              { width: 65.3333333333%; }
+  .one-third.column               { grid-column-end: span 4; }
+  .two-thirds.column              { grid-column-end: span 8; }
 
-  .one-half.column                { width: 48%; }
+  .one-half.column                { grid-column-end: span 6; }
 
-  /* Offsets */
+  /* Offsets: move the start line only; grid-column-end above still
+  holds the width. */
   .offset-by-one.column,
-  .offset-by-one.columns          { margin-left: 8.66666666667%; }
+  .offset-by-one.columns          { grid-column-start: 2; }
   .offset-by-two.column,
-  .offset-by-two.columns          { margin-left: 17.3333333333%; }
+  .offset-by-two.columns          { grid-column-start: 3; }
   .offset-by-three.column,
-  .offset-by-three.columns        { margin-left: 26%;            }
+  .offset-by-three.columns        { grid-column-start: 4; }
   .offset-by-four.column,
-  .offset-by-four.columns         { margin-left: 34.6666666667%; }
+  .offset-by-four.columns         { grid-column-start: 5; }
   .offset-by-five.column,
-  .offset-by-five.columns         { margin-left: 43.3333333333%; }
+  .offset-by-five.columns         { grid-column-start: 6; }
   .offset-by-six.column,
-  .offset-by-six.columns          { margin-left: 52%;            }
+  .offset-by-six.columns          { grid-column-start: 7; }
   .offset-by-seven.column,
-  .offset-by-seven.columns        { margin-left: 60.6666666667%; }
+  .offset-by-seven.columns        { grid-column-start: 8; }
   .offset-by-eight.column,
-  .offset-by-eight.columns        { margin-left: 69.3333333333%; }
+  .offset-by-eight.columns        { grid-column-start: 9; }
   .offset-by-nine.column,
-  .offset-by-nine.columns         { margin-left: 78.0%;          }
+  .offset-by-nine.columns         { grid-column-start: 10; }
   .offset-by-ten.column,
-  .offset-by-ten.columns          { margin-left: 86.6666666667%; }
+  .offset-by-ten.columns          { grid-column-start: 11; }
   .offset-by-eleven.column,
-  .offset-by-eleven.columns       { margin-left: 95.3333333333%; }
+  .offset-by-eleven.columns       { grid-column-start: 12; }
 
   .offset-by-one-third.column,
-  .offset-by-one-third.columns    { margin-left: 34.6666666667%; }
+  .offset-by-one-third.columns    { grid-column-start: 5; }
   .offset-by-two-thirds.column,
-  .offset-by-two-thirds.columns   { margin-left: 69.3333333333%; }
+  .offset-by-two-thirds.columns   { grid-column-start: 9; }
 
   .offset-by-one-half.column,
-  .offset-by-one-half.columns     { margin-left: 52%; }
+  .offset-by-one-half.columns     { grid-column-start: 7; }
 
 }
 
@@ -486,8 +503,13 @@ hr {
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 /* Self Clearing Goodness */
+/* .row dropped out of this list: its children are grid items now, not
+floats, so it has nothing to self-clear - and leaving the rule on
+would generate a ::after that the grid in the section above would
+place as a stray 13th grid item. .container keeps it (a user's own
+floated content inside .container, e.g. with .u-pull-left/-right,
+still needs containing), and .u-cf stays as the public utility class. */
 .container:after,
-.row:after,
 .u-cf {
   content: "";
   display: table;
