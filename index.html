@@ -15,7 +15,7 @@
 
   <!-- FONT
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
 
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -35,10 +35,90 @@
     <div class="row">
       <div class="one-half column" style="margin-top: 25%">
         <h4>Basic Page</h4>
-        <p>This index.html page is a placeholder with the CSS, font and favicon. It's just waiting for you to add some content! If you need some help hit up the <a href="http://www.getskeleton.com">Skeleton documentation</a>.</p>
+        <p>This index.html page is a placeholder with the CSS, font and favicon. It's just waiting for you to add some content! If you need some help hit up the <a href="https://www.getskeleton.com">Skeleton documentation</a>.</p>
       </div>
     </div>
   </div>
+
+  <!-- What's New
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+
+    <hr>
+
+    <div class="row">
+      <div class="twelve columns">
+        <h3 id="whats-new">What's new in this fork</h3>
+        <p>Same classes, same breakpoints, same ~400 lines of plain CSS. Three additions, all opt-in: design tokens, automatic dark mode, and a cascade layer so your own CSS always wins.</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="six columns">
+        <h5>Tokens</h5>
+        <p>Every color, spacing value, border radius, font family, the container width, and the grid gutter is now a custom property on <code>:root</code>. Nothing is hard-coded anymore &mdash; retune the whole site by changing a handful of variables instead of hunting through the file.</p>
+      </div>
+      <div class="six columns">
+        <h5>Dark mode</h5>
+        <p>Pages using this stylesheet follow <code>prefers-color-scheme</code> automatically &mdash; no markup changes required. To force a mode regardless of OS setting, set <code>data-theme</code> on <code>&lt;html&gt;</code>:</p>
+        <pre><code>&lt;html data-theme="dark"&gt;
+&lt;html data-theme="light"&gt;</code></pre>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="twelve columns">
+        <h5>Try it</h5>
+        <p>This page is rendered with the live stylesheet, so the toggle below is switching real tokens in real time.</p>
+        <button id="theme-toggle" class="button button-primary" type="button">Toggle dark mode</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="twelve columns">
+        <h5>Overriding a token</h5>
+        <p>Tokens live in <code>@layer skeleton</code>, so any unlayered rule on your own page beats them regardless of selector specificity &mdash; no <code>!important</code> needed. To retheme, just redeclare the token after the stylesheet is linked:</p>
+        <pre><code>&lt;link rel="stylesheet" href="css/skeleton.css"&gt;
+&lt;style&gt;
+  :root {
+    --color-primary: #e91e63;
+    --border-radius: 2px;
+    --container-width: 1100px;
+  }
+&lt;/style&gt;</code></pre>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="twelve columns">
+        <h5>The grid, unchanged</h5>
+        <p>Still <code>.container</code> &gt; <code>.row</code> &gt; <code>.column</code>/<code>.columns</code>, still <code>.one</code> through <code>.twelve</code>, still <code>.offset-by-*</code>. It's CSS Grid under the hood now instead of floats, but the markup and the rendered widths are identical.</p>
+        <div class="row">
+          <div class="four columns" style="background:var(--color-code-bg)">four</div>
+          <div class="four columns" style="background:var(--color-code-bg)">four</div>
+          <div class="four columns" style="background:var(--color-code-bg)">four</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    (function () {
+      var toggle = document.getElementById('theme-toggle');
+      var root = document.documentElement;
+
+      function currentlyDark() {
+        var forced = root.getAttribute('data-theme');
+        if (forced) return forced === 'dark';
+        return window.matchMedia('(prefers-color-scheme: dark)').matches;
+      }
+
+      toggle.addEventListener('click', function () {
+        root.setAttribute('data-theme', currentlyDark() ? 'light' : 'dark');
+      });
+    })();
+  </script>
 
 <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
