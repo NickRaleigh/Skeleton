@@ -27,11 +27,31 @@
 - Media Queries
 */
 
-/* Everything below lives in one cascade layer so that any unlayered
-CSS on a page using Skeleton wins automatically, regardless of
-selector specificity - no more !important or specificity arms races
-to override a Skeleton default. Left unindented to keep this diff
-readable; it's one layer for the whole file, not a style change. */
+/* Pull normalize.css into its own lower-priority layer rather than
+leaving it unlayered. Cascade layers are checked before specificity,
+so if normalize stayed unlayered it would now beat Skeleton's own
+rules regardless of specificity - e.g. normalize's plain `a {
+background-color: transparent }` would beat `.button.button-primary`
+on a link styled as a button, something that only worked in v2.0.4
+because everything there was unlayered and specificity settled it.
+This "normalize" layer, declared here first, is lower-priority than
+the "skeleton" layer below simply because it comes first in the file
+- @layer priority follows first-declared-is-lowest, same ordering
+rule that makes unlayered CSS (declared nowhere, so implicitly last)
+the highest priority of all. @import must be the first rule in the
+file (comments above are fine), which is why index.html no longer
+links normalize.css separately - this pulls it in instead. The
+tradeoff: @import makes the browser fetch normalize.css only after
+parsing this far into skeleton.css, instead of in parallel; for a
+file this small that's not worth avoiding the alternative (duplicating
+normalize's rules here, or leaving it unlayered and broken). */
+@import url("normalize.css") layer(normalize);
+
+/* Everything below lives in its own cascade layer so that any
+unlayered CSS on a page using Skeleton wins automatically, regardless
+of selector specificity - no more !important or specificity arms
+races to override a Skeleton default. Left unindented to keep this
+diff readable; it's one layer for the whole file, not a style change. */
 @layer skeleton {
 
 
