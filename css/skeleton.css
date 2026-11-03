@@ -11,6 +11,7 @@
 /* Table of contents
 ––––––––––––––––––––––––––––––––––––––––––––––––––
 - Tokens
+- Dark Mode
 - Grid
 - Base Styles
 - Typography
@@ -68,6 +69,47 @@ condition. */
   --border-radius:   4px;
   --container-width: 960px;
   --grid-gutter:      4%;
+}
+
+/* Dark mode: redefine color tokens only, nothing else. Automatic via
+the OS preference; :root[data-theme] lets a page force either mode
+regardless of OS preference, and wins over prefers-color-scheme
+because the attribute selector is excluded from the media query. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-bg:                  #1a1a1a;
+    --color-fg:                  #e8e8e8;
+    --color-link:                #33C3F0;
+    --color-link-hover:          #5ed2f5;
+    --color-primary:             #1EAEDB;
+    --color-primary-hover:       #33C3F0;
+    --color-primary-contrast:    #0a0a0a;
+    --color-border:               #444;
+    --color-border-subtle:        #333;
+    --color-button-text:         #ccc;
+    --color-button-text-hover:   #fff;
+    --color-button-border:       #555;
+    --color-button-border-hover: #888;
+    --color-input-bg:            #262626;
+    --color-code-bg:             #262626;
+  }
+}
+:root[data-theme="dark"] {
+  --color-bg:                  #1a1a1a;
+  --color-fg:                  #e8e8e8;
+  --color-link:                #33C3F0;
+  --color-link-hover:          #5ed2f5;
+  --color-primary:             #1EAEDB;
+  --color-primary-hover:       #33C3F0;
+  --color-primary-contrast:    #0a0a0a;
+  --color-border:               #444;
+  --color-border-subtle:        #333;
+  --color-button-text:         #ccc;
+  --color-button-text-hover:   #fff;
+  --color-button-border:       #555;
+  --color-button-border-hover: #888;
+  --color-input-bg:            #262626;
+  --color-code-bg:             #262626;
 }
 
 
