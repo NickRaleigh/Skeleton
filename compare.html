@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Skeleton: v2.0.4 vs modernized</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    html { font-size: 62.5%; }
+    body {
+      margin: 0;
+      font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background: #fff;
+      color: #222; }
+    header {
+      padding: 2rem 2rem 1rem;
+      border-bottom: 1px solid #e1e1e1; }
+    header h1 { font-size: 2.2rem; margin: 0 0 .5rem; }
+    header p { font-size: 1.4rem; color: #555; margin: 0; }
+    .panes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: #e1e1e1; }
+    .pane { background: #fff; }
+    .pane h2 {
+      font-size: 1.3rem;
+      text-transform: uppercase;
+      letter-spacing: .1rem;
+      padding: 1rem 2rem;
+      margin: 0;
+      background: #f1f1f1;
+      border-bottom: 1px solid #e1e1e1; }
+    .pane iframe {
+      display: block;
+      width: 100%;
+      height: 1400px;
+      border: 0; }
+    @media (max-width: 900px) {
+      .panes { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Skeleton CSS: v2.0.4 vs. modernized</h1>
+    <p>Same demo markup, rendered once against the frozen <code>css/skeleton-v2.css</code> baseline and once against the modernized <code>css/skeleton.css</code>, so any visual drift is easy to spot. Each pane is an iframe with its own viewport, so the grid's responsive breakpoints are live &mdash; resize the window to compare them at different widths.</p>
+  </header>
+
+  <div class="panes">
+    <div class="pane">
+      <h2>css/skeleton-v2.css (original)</h2>
+      <iframe id="frame-old" title="Original Skeleton v2.0.4"></iframe>
+    </div>
+    <div class="pane">
+      <h2>css/skeleton.css (modernized)</h2>
+      <iframe id="frame-new" title="Modernized Skeleton"></iframe>
+    </div>
+  </div>
+
+  <script>
+    // One shared markup template rendered into both iframes, so the
+    // only variable between panes is which stylesheet(s) are linked.
+    // skeleton.css now pulls normalize.css in itself (see the comment
+    // at the top of css/skeleton.css), so only the v2 pane needs its
+    // own separate normalize.css link - that mirrors how each version
+    // is actually meant to be used.
+    function demoPage(stylesheetHref, needsNormalizeLink) {
+      return '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">' +
+        '<meta name="viewport" content="width=device-width, initial-scale=1">' +
+        (needsNormalizeLink ? '<link rel="stylesheet" href="css/normalize.css">' : '') +
+        '<link rel="stylesheet" href="' + stylesheetHref + '">' +
+        '<style>body{padding:0 0 4rem}</style>' +
+        '</head><body>' +
+        '<div class="container">' +
+
+          '<h1>Heading One</h1>' +
+          '<h2>Heading Two</h2>' +
+          '<h3>Heading Three</h3>' +
+          '<h4>Heading Four</h4>' +
+          '<h5>Heading Five</h5>' +
+          '<h6>Heading Six</h6>' +
+          '<p>Body copy with an <a href="#">inline link</a> to check color and hover state. Skeleton styles raw HTML elements first, then adds a small grid and a few utilities on top.</p>' +
+
+          '<hr>' +
+
+          '<div class="row">' +
+            '<div class="four columns">four</div>' +
+            '<div class="four columns">four</div>' +
+            '<div class="four columns">four</div>' +
+          '</div>' +
+          '<div class="row">' +
+            '<div class="one-third column">one-third</div>' +
+            '<div class="two-thirds column">two-thirds</div>' +
+          '</div>' +
+          '<div class="row">' +
+            '<div class="six columns offset-by-six">six, offset-by-six</div>' +
+          '</div>' +
+
+          '<hr>' +
+
+          '<a class="button" href="#">Button</a>' +
+          '<a class="button button-primary" href="#">Button Primary</a>' +
+
+          '<form>' +
+            '<div class="row">' +
+              '<div class="six columns">' +
+                '<label for="demo-name">Name</label>' +
+                '<input class="u-full-width" type="text" id="demo-name" placeholder="Jane Appleseed">' +
+              '</div>' +
+              '<div class="six columns">' +
+                '<label for="demo-email">Email</label>' +
+                '<input class="u-full-width" type="email" id="demo-email" placeholder="jane@example.com">' +
+              '</div>' +
+            '</div>' +
+            '<label for="demo-select">Favorite color</label>' +
+            '<select id="demo-select">' +
+              '<option>Blue</option>' +
+              '<option>Pink</option>' +
+            '</select>' +
+          '</form>' +
+
+          '<ul>' +
+            '<li>Unordered list item</li>' +
+            '<li>Second item' +
+              '<ul><li>Nested item</li></ul>' +
+            '</li>' +
+          '</ul>' +
+
+          '<p>Inline <code>code</code> and a block:</p>' +
+          '<pre><code>.example { color: var(--color-link); }</code></pre>' +
+
+          '<table>' +
+            '<thead><tr><th>Name</th><th>Role</th></tr></thead>' +
+            '<tbody>' +
+              '<tr><td>Dave</td><td>Original author</td></tr>' +
+              '<tr><td>Fork</td><td>Modernization proposal</td></tr>' +
+            '</tbody>' +
+          '</table>' +
+
+          '<div class="u-cf">' +
+            '<span class="u-pull-left">pull-left</span>' +
+            '<span class="u-pull-right">pull-right</span>' +
+          '</div>' +
+
+        '</div>' +
+        '</body></html>';
+    }
+
+    document.getElementById('frame-old').srcdoc = demoPage('css/skeleton-v2.css', true);
+    document.getElementById('frame-new').srcdoc = demoPage('css/skeleton.css', false);
+  </script>
+
+</body>
+</html>
