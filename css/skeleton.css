@@ -27,6 +27,13 @@
 - Media Queries
 */
 
+/* Everything below lives in one cascade layer so that any unlayered
+CSS on a page using Skeleton wins automatically, regardless of
+selector specificity - no more !important or specificity arms races
+to override a Skeleton default. Left unindented to keep this diff
+readable; it's one layer for the whole file, not a style change. */
+@layer skeleton {
+
 
 /* Tokens
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
@@ -511,3 +518,5 @@ there.
 
 /* Larger than Desktop HD */
 @media (min-width: 1200px) {}
+
+} /* @layer skeleton */
